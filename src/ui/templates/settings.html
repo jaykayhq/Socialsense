@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - Social Media Analytics NG{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Application Settings</h1>
+    <p>Manage your account, linked social media profiles, and application preferences.</p>
+</section>
+
+<section id="user-profile" class="settings-section card">
+    <h2>User Profile</h2>
+    <form>
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="DemoUser" disabled>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="demo@example.com" disabled>
+        </div>
+        <div>
+            <button type="button" disabled>Edit Profile (Disabled)</button>
+        </div>
+    </form>
+</section>
+
+<section id="linked-accounts" class="settings-section card">
+    <h2>Linked Social Media Accounts</h2>
+    <ul class="linked-accounts-list">
+        <li>
+            <span>Twitter: @YourTwitterHandle (Mock)</span>
+            <button type="button" class="remove-account-btn" disabled>Remove</button>
+        </li>
+        <li>
+            <span>Instagram: @YourInstagramProfile (Mock)</span>
+            <button type="button" class="remove-account-btn" disabled>Remove</button>
+        </li>
+    </ul>
+    <button type="button" disabled>Link New Account (Disabled)</button>
+</section>
+
+<section id="notification-preferences" class="settings-section card">
+    <h2>Notification Preferences</h2>
+    <form>
+        <div>
+            <input type="checkbox" id="email_notifications" name="email_notifications" checked>
+            <label for="email_notifications">Receive Email Notifications for critical alerts.</label>
+        </div>
+        <div>
+            <input type="checkbox" id="new_trend_alerts" name="new_trend_alerts">
+            <label for="new_trend_alerts">Notify me about new relevant trends.</label>
+        </div>
+        <button type="submit" disabled>Save Preferences</button>
+    </form>
+</section>
+
+<section id="data-settings" class="settings-section card">
+    <h2>Data &amp; Privacy</h2>
+    <p>Manage your data settings and privacy options.</p>
+    <ul>
+        <li><a href="#">Download Your Data (Placeholder)</a></li>
+        <li><a href="#">Delete Your Account (Placeholder)</a></li>
+    </ul>
+</section>
+{% endblock %}

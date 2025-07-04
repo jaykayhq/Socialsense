@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Campaigns - Social Media Analytics NG{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Your Campaigns</h1>
+    <p>Monitor and manage your social media marketing campaigns.</p>
+    <a href="#" class="button_primary" style="text-decoration: none; padding: 10px 15px; background-color: #007bff; color: white; border-radius: 5px; display: inline-block; margin-top:10px;" disabled>+ Create New Campaign (Coming Soon)</a>
+</section>
+
+<section id="campaign-list" class="campaign-list-section">
+    {% if campaigns and campaigns|length > 0 %}
+        {% for campaign in campaigns %}
+        <div class="card campaign-card">
+            <h2>{{ campaign.name }}</h2>
+            <div class="campaign-details-grid">
+                <p><strong>Status:</strong> <span class="status-badge status-{{ campaign.status.lower() }}">{{ campaign.status }}</span></p>
+                <p><strong>Duration:</strong> {{ campaign.start_date.strftime('%b %d, %Y') if campaign.start_date else 'N/A' }} - {{ campaign.end_date.strftime('%b %d, %Y') if campaign.end_date else 'Ongoing' }}</p>
+
+                <p><strong>Tracked Hashtags:</strong> {{ campaign.tracked_hashtags|join(', ') if campaign.tracked_hashtags else 'None' }}</p>
+                <p><strong>Tracked Keywords:</strong> {{ campaign.tracked_keywords|join(', ') if campaign.tracked_keywords else 'None' }}</p>
+                <p><strong>Tracked Accounts:</strong> {{ campaign.tracked_accounts|join(', ') if campaign.tracked_accounts else 'None' }}</p>
+            </div>
+
+            <div class="campaign-metrics-grid">
+                <div><strong>Total Posts:</strong> <span class="metric-value-small">{{ campaign.total_posts }}</span></div>
+                <div><strong>Total Likes:</strong> <span class="metric-value-small">{{ campaign.total_likes }}</span></div>
+                <div><strong>Total Shares:</strong> <span class="metric-value-small">{{ campaign.total_shares }}</span></div>
+                <div><strong>Total Comments:</strong> <span class="metric-value-small">{{ campaign.total_comments }}</span></div>
+                <div><strong>Total Reach:</strong> <span class="metric-value-small">{{ campaign.total_reach_formatted if campaign.total_reach_formatted else campaign.total_reach }}</span></div>
+                <div><strong>Avg. Engagement Rate:</strong> <span class="metric-value-small">{{ campaign.avg_engagement_rate }}%</span></div>
+            </div>
+            <div class="campaign-actions">
+                <a href="#" class="button_secondary" disabled>View Details (Coming Soon)</a>
+                <a href="#" class="button_edit" disabled>Edit (Coming Soon)</a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+    <div class="card">
+        <p>You haven't created any campaigns yet.</p>
+        <p><a href="#" disabled>Create your first campaign</a> to start tracking its performance!</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<style>
+    .campaign-card { margin-bottom: 25px; }
+    .campaign-card h2 { font-size: 1.5em; margin-bottom: 10px; color: #007bff; }
+    .campaign-details-grid, .campaign-metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 10px;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    .campaign-metrics-grid:last-child { border-bottom: none; }
+    .campaign-details-grid p, .campaign-metrics-grid div { font-size: 0.95em; }
+    .campaign-details-grid p strong, .campaign-metrics-grid div strong { color: #333; }
+    .metric-value-small { font-weight: bold; color: #2c3e50; }
+
+    .campaign-actions { margin-top: 15px; }
+    .campaign-actions a { margin-right: 10px; padding: 8px 12px; border-radius: 4px; text-decoration: none; font-size: 0.9em;}
+    .button_primary { background-color: #007bff; color: white; }
+    .button_secondary { background-color: #6c757d; color: white; }
+    .button_edit { background-color: #ffc107; color: #212529; }
+    .button_primary:hover, .button_secondary:hover, .button_edit:hover { opacity: 0.85; }
+    a[disabled] {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+</style>
+{% endblock %}
