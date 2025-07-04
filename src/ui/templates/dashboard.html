@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Social Media Analytics NG{% endblock %}
+
+{% block content %}
+<section class="dashboard-header">
+    <h1>Welcome, Business Owner!</h1>
+    <p>Here's your social media performance snapshot.</p>
+</section>
+
+<section class="key-metrics grid">
+    <div class="metric-card card">
+        <h2>Total Followers</h2>
+        <p class="metric-value">{{ data.key_metrics.total_followers_formatted if data.key_metrics.total_followers_formatted else data.key_metrics.total_followers }}</p>
+        <span class="metric-change">+5% this month</span> <!-- Mock change -->
+    </div>
+    <div class="metric-card card">
+        <h2>Avg. Engagement Rate</h2>
+        <p class="metric-value">{{ data.key_metrics.avg_engagement_rate }}%</p>
+        <span class="metric-change">-0.2% this week</span> <!-- Mock change -->
+    </div>
+    <div class="metric-card card">
+        <h2>Posts This Week</h2>
+        <p class="metric-value">{{ data.key_metrics.posts_this_week }}</p>
+        <span class="metric-change">+10% vs last week</span> <!-- Mock change -->
+    </div>
+</section>
+
+<section class="dashboard-main-content grid">
+    <div class="main-column">
+        <section id="actionable-insights" class="dashboard-section card">
+            <h2>Actionable Insights</h2>
+            {% if data.insights %}
+            <ul class="insights-list">
+                {% for insight in data.insights %}
+                <li class="insight-item">
+                    <span class="insight-icon">💡</span> <!-- Placeholder icon -->
+                    <p>{{ insight.description }}</p>
+                    <small>Type: {{ insight.type }} | Generated: {{ insight.generated_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No new insights at the moment. Check back later!</p>
+            {% endif %}
+        </section>
+
+        <section id="campaign-performance" class="dashboard-section card">
+            <h2>Campaign Performance Overview</h2>
+            {% if data.campaigns_overview %}
+            <table class="campaign-table">
+                <thead>
+                    <tr>
+                        <th>Campaign Name</th>
+                        <th>Status</th>
+                        <th>Total Reach</th>
+                        <th>Avg. Engagement Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for campaign_overview in data.campaigns_overview %}
+                    <tr>
+                        <td>{{ campaign_overview.name }}</td>
+                        <td><span class="status-badge status-{{ campaign_overview.status.lower() }}">{{ campaign_overview.status }}</span></td>
+                        <td>{{ campaign_overview.reach_formatted if campaign_overview.reach_formatted else campaign_overview.reach }}</td>
+                        <td>{{ campaign_overview.engagement_rate }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{ url_for('campaigns_page') }}" class="view-all-link">View all campaigns &raquo;</a>
+            {% else %}
+            <p>No active campaigns to display. Start one to see its performance here.</p>
+            {% endif %}
+        </section>
+    </div>
+
+    <aside class="sidebar-column">
+        <section id="recent-trends" class="dashboard-section card">
+            <h2>Recent Trends</h2>
+            {% if data.trends %}
+            <ul class="trends-list">
+                {% for trend in data.trends %}
+                <li>{{ trend.term }} ({{ trend.count }})</li>
+                {% endfor %}
+            </ul>
+            <a href="{{ url_for('trends_page') }}" class="view-all-link">View all trends &raquo;</a>
+            {% else %}
+            <p>Could not fetch trends at this time.</p>
+            {% endif %}
+        </section>
+
+        <section id="quick-actions" class="dashboard-section card">
+            <h2>Quick Actions</h2>
+            <ul>
+                <li><a href="#">Analyze New Hashtag</a></li>
+                <li><a href="#">Create New Report</a></li>
+                <li><a href="#">Link New Social Account</a></li>
+            </ul>
+        </section>
+    </aside>
+</section>
+
+{% endblock %}

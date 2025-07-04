@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Trends - Social Media Analytics NG{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Social Media Trends</h1>
+    <p>Discover what's currently trending and relevant to your audience in Nigeria.</p>
+</section>
+
+<section id="all-trends" class="trends-list-section card">
+    <h2>Current Top Trends</h2>
+    {% if trends %}
+    <ul class="trends-list detailed-trends-list">
+        {% for trend in trends %}
+        <li class="trend-item">
+            <span class="trend-term">{{ trend.term }}</span>
+            <span class="trend-count">Volume: {{ trend.count }}</span>
+            <span class="trend-platform">Platform: Twitter/Instagram (Mock)</span>
+            <a href="#" class="trend-analyze-link">Analyze Trend &raquo;</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No trends to display at the moment, or could not fetch trends.</p>
+    {% endif %}
+</section>
+
+<section class="trends-actions card">
+    <h2>Trend Tools</h2>
+    <form class="trend-search-form">
+        <input type="text" name="search_term" placeholder="Search for a specific trend or keyword...">
+        <button type="submit">Search</button>
+    </form>
+    <p>Tip: Use the search to explore topics relevant to your industry.</p>
+</section>
+{% endblock %}

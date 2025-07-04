@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Social Media Analytics NG{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Add any other common CSS or JS links here -->
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="{{ url_for('dashboard') }}" class="logo">SMA-NG</a>
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('trends_page') }}">Trends</a></li>
+                <li><a href="{{ url_for('campaigns_page') }}">Campaigns</a></li>
+                <li><a href="#">Reports</a></li> <!-- Placeholder -->
+                <li class="nav-item-alerts">
+                    <a href="#" id="alerts-toggle">
+                        🔔 Alerts
+                        {% set unread_alerts = alerts|selectattr('is_read', 'false')|list %}
+                        {% if unread_alerts|length > 0 %}
+                            <span class="alert-badge">{{ unread_alerts|length }}</span>
+                        {% endif %}
+                    </a>
+                    <div id="alerts-dropdown" class="alerts-dropdown" style="display: none;">
+                        {% if alerts and alerts|length > 0 %}
+                            <div class="alerts-header">Notifications</div>
+                            <ul>
+                                {% for alert in alerts %}
+                                <li class="alert-item alert-{{ alert.severity }} {% if alert.is_read %}is-read{% endif %}">
+                                    <p>{{ alert.message }}</p>
+                                    <small>{{ alert.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                                    {% if not alert.is_read %}
+                                        <!-- <a href="#" class="mark-as-read" data-alert-id="{{ alert.alert_id }}">Mark read</a> -->
+                                    {% endif %}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="alerts-footer">
+                                <a href="#">View All Notifications (Coming Soon)</a>
+                            </div>
+                        {% else %}
+                            <p class="no-alerts">No new notifications.</p>
+                        {% endif %}
+                    </div>
+                </li>
+                <li><a href="{{ url_for('settings_page') }}">Settings</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% block content %}
+        <!-- Page-specific content will go here -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ current_year }} Social Media Analytics NG. Empowering Nigerian SMEs.</p>
+        </div>
+    </footer>
+
+    <!-- Add any common JS scripts at the end of the body -->
+    <!-- <script src="{{ url_for('static', filename='js/main.js') }}"></script> -->
+</body>
+</html>
